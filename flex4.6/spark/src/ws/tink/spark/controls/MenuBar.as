@@ -203,15 +203,24 @@ package ws.tink.spark.controls
 		 */		
 		public function set selectedIndices( value:Vector.<int> ):void
 		{
+            trace("Requested: " + value);
 			const indices:Vector.<int> = selectedIndices;
-			
+			if(!value) {
+                trace("attempt reset");
+                selectedIndex = -1;
+                _selectedIndices = null;
+                return
+            }
+
+
 			if( !indices && !value )
 			{
+
 				return;
 			}
-			else if( !indices && value ||
-					 indices && !value )
+			else if( !indices && value || indices && !value )
 			{
+                trace("got here");
 				_selectedIndices = value ? value.concat() : null;
 			}
 			else if( indices.toString() != indices.toString() )
@@ -220,10 +229,12 @@ package ws.tink.spark.controls
 			}
 			else
 			{
-				return;
+                trace("fall thru");
+				//return;
 			}
-			
+
 			selectedIndex = _selectedIndices && _selectedIndices.length ? _selectedIndices[ 0 ] : -1;
+            trace("selectedIndex: "+ selectedIndex);
 		}
 		
 		
@@ -324,12 +335,16 @@ package ws.tink.spark.controls
 			if( dp is ISelectableList )
 			{
 				const index:int = ISelectableList( dp ).selectedIndex;
-				if( index != -1 )
+				trace("intex " + index);
+                if( index != -1 )
 				{
-				const item:Object = dp.getItemAt( index );
-				if( !indices ) indices = new Vector.<int>();
-				indices.push( index );
-				if( item is IList ) return recurseDataProviderSelectedIndices( IList( item ), indices );
+                    const item:Object = dp.getItemAt( index );
+                    if( !indices ) indices = new Vector.<int>();
+                    indices.push( index );
+                    if( item is IList ){
+                        trace("returning rdpsi")
+                        return recurseDataProviderSelectedIndices( IList( item ), indices );
+                    }
 				}
 			}
 			else if( selectedIndex != -1 )
@@ -443,11 +458,13 @@ package ws.tink.spark.controls
 			var changed:Boolean;
 			if( !_proposedSelectedIndices && !_selectedIndices && value > -1 )
 			{
+                 trace("somehow this is set");
 				_proposedSelectedIndices = recurseDataProviderSelectedIndices( dataProvider );
 				changed = true;
 			}
 			else if( _selectedIndices && _proposedSelectedIndices )
 			{
+                trace("initial dp si: "+ ISelectableList( dp ).selectedIndex);
 				changed = _selectedIndices.join() != _proposedSelectedIndices.join()
 			}
 			else if( !_selectedIndices && _proposedSelectedIndices ||
@@ -566,14 +583,15 @@ package ws.tink.spark.controls
 		 */
 		protected function onRendererChange( event:IndexChangeEvent ):void
 		{
+            trace("renderer change");
 			var renderer:List = List( event.currentTarget );
 			
-			var newIndex:int
-			if (event.currentTarget is IItemRenderer)
-				newIndex = IItemRenderer(event.currentTarget).itemIndex;
-			else
-				newIndex = dataGroup.getElementIndex(event.currentTarget as IVisualElement);
-			
+			var newIndex:int = -1;
+//			if (event.currentTarget is IItemRenderer)
+//				newIndex = IItemRenderer(event.currentTarget).itemIndex;
+//			else
+//				newIndex = dataGroup.getElementIndex(event.currentTarget as IVisualElement);
+			trace("newIndex " + newIndex);
 			
 //			_itemMouseDowns = true;
 			_proposedSelectedIndices = renderer.selectedIndices ? Vector.<int>( [ newIndex ] ).concat( renderer.selectedIndices ) : Vector.<int>( [ newIndex ] );

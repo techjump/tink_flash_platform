@@ -45,7 +45,7 @@
 		
 		<mkdir dir="${BIN_DIR}" />
 	    	    	
-    	<compc output="${BIN_DIR}/${SWC_NAME}" static-link-runtime-shared-libraries="true" include-classes="${classes}" debug="false">
+    	<compc output="${BIN_DIR}/${SWC_NAME}" static-link-runtime-shared-libraries="true" include-classes="${classes}" debug="true">
     		<external-library-path dir="${FLEX_HOME}/frameworks/libs/player/${VERSION}/" includes="*.swc"/>
     		<source-path path-element="${SRC_DIR}"/>
     	</compc>

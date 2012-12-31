@@ -63,12 +63,14 @@ package ws.tink.spark.itemRenderers
 				value.addEventListener(FlexEvent.VALUE_COMMIT, dataProvider_changeHandler, false, 0, true);
 				value.addEventListener(IndexChangedEvent.CHANGE, dataProvider_changeHandler, false, 0, true);
 			}
-			
+
 			super.dataProvider = value;
-			
-			if (value is ISelectableList)
-				selectedIndex = ISelectableList(dataProvider).selectedIndex;
-		}  
+
+			if (value is ISelectableList)                  {
+				//selectedIndex = ISelectableList(dataProvider).selectedIndex;
+                trace("Child Selected Index: " + selectedIndex);
+            }
+		}
 		
 		/**
 		 *  @private
@@ -97,7 +99,7 @@ package ws.tink.spark.itemRenderers
 		public function MenuBarItemRenderer()
 		{
 			super();
-			
+			this.selectedIndex = -1;
 			allowMultipleSelection = false;
 			dropDownController.rollOverOpenDelay = 5;
 		}
@@ -163,7 +165,7 @@ package ws.tink.spark.itemRenderers
 		 *  @private
 		 *  Storage for the itemIndex property. 
 		 */
-		private var _itemIndex:int;
+		private var _itemIndex:int = -1;
 		
 		/**
 		 *  @inheritDoc

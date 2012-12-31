@@ -46,7 +46,7 @@
 		
 		<mkdir dir="${BIN_DIR}" />
 		    	
-		<compc output="${BIN_DIR}/${SWC_NAME}" static-link-runtime-shared-libraries="true" include-classes="${classes}" debug="false">
+		<compc output="${BIN_DIR}/${SWC_NAME}" static-link-runtime-shared-libraries="true" include-classes="${classes}" debug="true">
 			
 			<namespace uri="http://ns.adobe.com/mxml/2009" manifest="${FLEX_HOME}/frameworks/mxml-2009-manifest.xml"/>
 			<namespace uri="library://ns.adobe.com/flex/spark" manifest="${FLEX_HOME}/frameworks/projects/spark/manifest.xml"/>
